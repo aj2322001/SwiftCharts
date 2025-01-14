@@ -56,6 +56,22 @@ struct ContentView: View {
                 .padding(.bottom, 16)
             
             Chart {
+                if let selectedViewMonth {
+                    RuleMark(x: .value("Selected Month", selectedViewMonth.date, unit: .month))
+                        .foregroundStyle(.secondary.opacity(0.4))
+                        .annotation(position: .top, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
+                            VStack {
+                                Text(selectedViewMonth.date, format: .dateTime.month(.wide))
+                                    .bold()
+                                Text("\(selectedViewMonth.viewCount)")
+                                    .font(.title3.bold())
+                            }
+                            .foregroundStyle(.white)
+                            .padding(12)
+                            .frame(width: 120)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(.pink.gradient))
+                        }
+                }
                 RuleMark(y: .value("Goal", viewCountGoal))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
                     .foregroundStyle(.blue)
