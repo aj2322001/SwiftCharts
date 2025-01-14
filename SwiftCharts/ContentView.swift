@@ -26,15 +26,25 @@ struct ContentView: View {
     let viewCountGoal: Int = 80000
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Youtube Views")
+                .font(.headline)
+            
+            Text("Total: \(self.viewMonths.reduce(0, {$0 + $1.viewCount}))")
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+                .padding(.bottom, 16)
+            
             Chart {
                 RuleMark(y: .value("Goal", viewCountGoal))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
-                    .annotation(alignment: .leading) {
-                        Text("Goal")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                }
+                    .foregroundStyle(.blue)
+//                    .annotation(alignment: .leading) {
+//                        Text("Goal")
+//                            .font(.caption)
+//                            .foregroundStyle(.secondary)
+//                    }
                 
                 ForEach(self.viewMonths) { viewMonth in
                     BarMark(
@@ -64,6 +74,15 @@ struct ContentView: View {
                     AxisValueLabel()
                 }
             }
+            
+            HStack {
+                Text("----")
+                    .foregroundStyle(.blue)
+                Text("Monthly Goal")
+                    .foregroundStyle(.secondary)
+            }
+            .font(.caption2)
+            .padding(.leading, 4)
         }
         .padding()
     }
