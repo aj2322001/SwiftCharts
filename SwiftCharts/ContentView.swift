@@ -46,10 +46,23 @@ struct ContentView: View {
                 }
             }
             .frame(height: 180)
-            .chartPlotStyle { plotContent in
-                plotContent
-                    .background(.black.gradient.opacity(0.3))
-                    .border(.brown, width: 3)
+//            .chartPlotStyle { plotContent in
+//                plotContent
+//                    .background(.black.gradient.opacity(0.3))
+//                    .border(.brown, width: 3)
+//            }
+            .chartXAxis {
+                AxisMarks(values: self.viewMonths.map({$0.date})) { date in
+//                    AxisGridLine()
+//                    AxisTick()
+                    AxisValueLabel(format: .dateTime.month(.narrow),centered: true)
+                }
+            }
+            .chartYAxis {
+                AxisMarks{ mark in
+                    AxisGridLine()
+                    AxisValueLabel()
+                }
             }
         }
         .padding()
