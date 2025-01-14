@@ -46,7 +46,11 @@ struct ContentView: View {
                 }
             }
             .frame(height: 180)
-            
+            .chartPlotStyle { plotContent in
+                plotContent
+                    .background(.black.gradient.opacity(0.3))
+                    .border(.brown, width: 3)
+            }
         }
         .padding()
     }
