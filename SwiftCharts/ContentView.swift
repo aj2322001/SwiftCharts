@@ -9,7 +9,26 @@ import SwiftUI
 import Charts
 
 struct ContentView: View {
-    let viewMonths: [ViewMonth] = [
+    @State private var rawSelectedDate: Date?
+    
+    var selectedViewMonth: ViewMonth? {
+        guard let rawSelectedDate = rawSelectedDate else {return nil}
+        return self.viewMonths.first {
+            let isSameMonth: Bool = Calendar.current.isDate(
+                rawSelectedDate,
+                equalTo: $0.date,
+                toGranularity: .month
+            )
+            let isSameYear: Bool = Calendar.current.isDate(
+                rawSelectedDate,
+                equalTo: $0.date,
+                toGranularity: .year
+            )
+            return isSameMonth && isSameYear
+        }
+    }
+    
+    private let viewMonths: [ViewMonth] = [
         ViewMonth(date: .from(year: 2025, month: 1, day: 1), viewCount: 55000),
         ViewMonth(date: .from(year: 2025, month: 2, day: 1), viewCount: 89000),
         ViewMonth(date: .from(year: 2025, month: 3, day: 1), viewCount: 64000),
@@ -23,7 +42,7 @@ struct ContentView: View {
         ViewMonth(date: .from(year: 2025, month: 11, day: 1), viewCount: 110000),
         ViewMonth(date: .from(year: 2025, month: 12, day: 1), viewCount: 94000),
     ]
-    let viewCountGoal: Int = 80000
+    private let viewCountGoal: Int = 80000
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -53,6 +72,7 @@ struct ContentView: View {
                     )
                     .foregroundStyle(Color.pink.gradient)
                     .cornerRadius(4)
+                    .opacity((self.rawSelectedDate == nil || viewMonth.date == self.selectedViewMonth?.date) ? 1.0 : 0.3)
                 }
             }
             .frame(height: 180)
@@ -61,6 +81,7 @@ struct ContentView: View {
 //                    .background(.black.gradient.opacity(0.3))
 //                    .border(.brown, width: 3)
 //            }
+            .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
                 AxisMarks(values: self.viewMonths.map({$0.date})) { date in
 //                    AxisGridLine()
