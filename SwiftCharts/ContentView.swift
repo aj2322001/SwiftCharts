@@ -28,6 +28,14 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Chart {
+                RuleMark(y: .value("Goal", viewCountGoal))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
+                    .annotation(alignment: .leading) {
+                        Text("Goal")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                }
+                
                 ForEach(self.viewMonths) { viewMonth in
                     BarMark(
                         x: .value("Month", viewMonth.date, unit: .month),
